@@ -20,6 +20,8 @@ public class LevelScreen extends BaseScreen {
 
     private Label starfishLabel;
 
+    private DialogBox dialogBox;
+
     public void initialize() {
         BaseActor ocean = new BaseActor(0, 0, mainStage);
         ocean.loadTexture("water-border.jpg");
@@ -71,6 +73,23 @@ public class LevelScreen extends BaseScreen {
         uiTable.add(starfishLabel).top();
         uiTable.add().expandX().expandY();
         uiTable.add(restartButton).top();
+
+        Sign sign1 = new Sign(20, 400, mainStage);
+        sign1.setText("West Starfish Bay");
+
+        Sign sign2 = new Sign(600, 300, mainStage);
+        sign2.setText("East Starfish Bay");
+
+        dialogBox = new DialogBox(0, 0, uiStage);
+        dialogBox.setBackgroundColor(Color.TAN);
+        dialogBox.setFontColor(Color.BROWN);
+        dialogBox.setDialogSize(600, 100);
+        dialogBox.setFontScale(0.80f);
+        dialogBox.alignCenter();
+        dialogBox.setVisible(false);
+
+        uiTable.row();
+        uiTable.add(dialogBox).colspan(3);
     }
 
     public void update(float dt) {
@@ -104,5 +123,24 @@ public class LevelScreen extends BaseScreen {
             StarfishGame.setActiveScreen(new LevelScreen2());
 
         starfishLabel.setText("Starfish Left: " + BaseActor.getList(mainStage, "com.mygdx.starfishcollectorch05.Starfish").size());
+
+        for (BaseActor signActor : BaseActor.getList(mainStage, "com.mygdx.starfishcollectorch05.Sign")) {
+            Sign sign = (Sign) signActor;
+
+            turtle.preventOverlap(sign);
+            boolean nearby = turtle.isWithinDistance(4, sign);
+
+            if (nearby && !sign.isViewing()) {
+                dialogBox.setText(sign.getText());
+                dialogBox.setVisible(true);
+                sign.setViewing(true);
+            }
+
+            if (!nearby && sign.isViewing()) {
+                dialogBox.setText(" ");
+                dialogBox.setVisible(false);
+                sign.setViewing(false);
+            }
+        }
     }
 }

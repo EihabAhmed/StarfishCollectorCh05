@@ -20,7 +20,7 @@ public abstract class BaseScreen implements Screen, InputProcessor {
 
         uiTable = new Table();
         uiTable.setFillParent(true);
-        uiTable.setDebug(true);
+//        uiTable.setDebug(true);
         uiStage.addActor(uiTable);
 
         initialize();
