@@ -14,12 +14,8 @@ public class MenuScreen extends BaseScreen {
 
         BaseActor title = new BaseActor(0, 0, mainStage);
         title.loadTexture("starfish-collector.png");
-        title.centerAtPosition(400, 300);
-        title.moveBy(0, 100);
 
         TextButton startButton = new TextButton("Start", BaseGame.textButtonStyle);
-        startButton.setPosition(150, 150);
-        uiStage.addActor(startButton);
 
         startButton.addListener(
                 (Event e) -> {
@@ -33,8 +29,6 @@ public class MenuScreen extends BaseScreen {
         );
 
         TextButton quitButton = new TextButton("Quit", BaseGame.textButtonStyle);
-        quitButton.setPosition(500, 150);
-        uiStage.addActor(quitButton);
 
         quitButton.addListener(
                 (Event e) -> {
@@ -46,6 +40,11 @@ public class MenuScreen extends BaseScreen {
                     return false;
                 }
         );
+
+        uiTable.add(title).colspan(2);
+        uiTable.row();
+        uiTable.add(startButton);
+        uiTable.add(quitButton);
     }
 
     public void update(float dt) {
